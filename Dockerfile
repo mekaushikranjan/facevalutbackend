@@ -20,6 +20,16 @@ RUN apt-get update && apt-get install -y \
     unzip \
     && rm -rf /var/lib/apt/lists/*
 
+# Install specific version of CMake
+RUN wget https://github.com/Kitware/CMake/releases/download/v3.5.1/cmake-3.5.1.tar.gz \
+    && tar -zxvf cmake-3.5.1.tar.gz \
+    && cd cmake-3.5.1 \
+    && ./bootstrap \
+    && make \
+    && make install \
+    && cd .. \
+    && rm -rf cmake-3.5.1*
+
 # Create and activate virtual environment
 ENV VIRTUAL_ENV=/opt/venv
 RUN python -m venv $VIRTUAL_ENV
@@ -31,8 +41,13 @@ RUN pip install --no-cache-dir --upgrade pip wheel setuptools
 # Copy requirements file
 COPY requirements.txt .
 
-# Install dlib separately first
-RUN pip install --no-cache-dir dlib==19.24.2
+# Set environment variables for dlib build
+ENV DLIB_USE_CUDA=0
+ENV CMAKE_BUILD_TYPE=Release
+ENV CMAKE_POLICY_VERSION_MINIMUM=3.5
+
+# Install dlib separately first with specific build flags
+RUN pip install --no-cache-dir dlib==19.24.2 --no-build-isolation
 
 # Install other Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
