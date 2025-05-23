@@ -18,28 +18,13 @@ RUN apt-get update && apt-get install -y \
     wget \
     unzip \
     libssl-dev \
-    libncurses5-dev \
-    libncursesw5-dev \
-    libreadline-dev \
-    libsqlite3-dev \
-    libgdbm-dev \
-    libdb5.3-dev \
-    libbz2-dev \
-    libexpat1-dev \
-    liblzma-dev \
-    libffi-dev \
-    zlib1g-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Install specific version of CMake
-RUN wget https://github.com/Kitware/CMake/releases/download/v3.25.1/cmake-3.25.1.tar.gz \
-    && tar -zxvf cmake-3.25.1.tar.gz \
-    && cd cmake-3.25.1 \
-    && ./bootstrap \
-    && make \
-    && make install \
-    && cd .. \
-    && rm -rf cmake-3.25.1*
+# Install CMake using the official binary distribution
+RUN wget https://github.com/Kitware/CMake/releases/download/v3.25.1/cmake-3.25.1-linux-x86_64.sh \
+    && chmod +x cmake-3.25.1-linux-x86_64.sh \
+    && ./cmake-3.25.1-linux-x86_64.sh --skip-license --prefix=/usr/local \
+    && rm cmake-3.25.1-linux-x86_64.sh
 
 # Create and activate virtual environment
 ENV VIRTUAL_ENV=/opt/venv
