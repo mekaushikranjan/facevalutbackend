@@ -54,6 +54,12 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the rest of the application
 COPY . .
 
+# Set environment variables for MongoDB connection
+ENV MONGODB_URI="mongodb://localhost:27017"
+ENV MONGODB_DB_NAME="facevault"
+ENV MONGODB_USERNAME=""
+ENV MONGODB_PASSWORD=""
+
 # Expose the port your app runs on
 EXPOSE 8000
 

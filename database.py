@@ -7,15 +7,21 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # MongoDB configuration
-MONGODB_URL = os.getenv("MONGODB_URL", "mongodb://localhost:27017")
-DATABASE_NAME = os.getenv("DATABASE_NAME", "facevault")
+MONGODB_URI = os.getenv("MONGODB_URI", "mongodb://localhost:27017")
+DATABASE_NAME = os.getenv("MONGODB_DB_NAME", "facevault")
+MONGODB_USERNAME = os.getenv("MONGODB_USERNAME", "")
+MONGODB_PASSWORD = os.getenv("MONGODB_PASSWORD", "")
+
+# Construct MongoDB URI with authentication if credentials are provided
+if MONGODB_USERNAME and MONGODB_PASSWORD:
+    MONGODB_URI = f"mongodb://{MONGODB_USERNAME}:{MONGODB_PASSWORD}@{MONGODB_URI.split('://')[1]}"
 
 # Async client for FastAPI
-async_client = AsyncIOMotorClient(MONGODB_URL)
+async_client = AsyncIOMotorClient(MONGODB_URI)
 db = async_client[DATABASE_NAME]
 
 # Sync client for background tasks
-sync_client = MongoClient(MONGODB_URL)
+sync_client = MongoClient(MONGODB_URI)
 sync_db = sync_client[DATABASE_NAME]
 
 # Collections
