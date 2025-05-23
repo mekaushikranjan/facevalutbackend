@@ -20,14 +20,14 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Install specific version of CMake
-RUN wget https://github.com/Kitware/CMake/releases/download/v3.8.0/cmake-3.8.0.tar.gz \
-    && tar -zxvf cmake-3.8.0.tar.gz \
-    && cd cmake-3.8.0 \
+RUN wget https://github.com/Kitware/CMake/releases/download/v3.25.1/cmake-3.25.1.tar.gz \
+    && tar -zxvf cmake-3.25.1.tar.gz \
+    && cd cmake-3.25.1 \
     && ./bootstrap \
     && make \
     && make install \
     && cd .. \
-    && rm -rf cmake-3.8.0*
+    && rm -rf cmake-3.25.1*
 
 # Create and activate virtual environment
 ENV VIRTUAL_ENV=/opt/venv
@@ -43,7 +43,7 @@ COPY requirements.txt .
 # Set environment variables for dlib build
 ENV DLIB_USE_CUDA=0
 ENV CMAKE_BUILD_TYPE=Release
-ENV CMAKE_POLICY_VERSION_MINIMUM=3.8
+ENV CMAKE_POLICY_VERSION_MINIMUM=3.25
 
 # Install dlib separately first with specific build flags
 RUN pip install --no-cache-dir dlib==19.24.2 --no-build-isolation
