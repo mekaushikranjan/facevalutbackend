@@ -42,8 +42,8 @@ ENV DLIB_USE_CUDA=0
 ENV CMAKE_BUILD_TYPE=Release
 ENV CMAKE_POLICY_VERSION_MINIMUM=3.25
 
-# Install dlib separately first with specific build flags
-RUN pip install --no-cache-dir dlib==19.24.2 --no-build-isolation
+# Install dlib using pre-built wheel
+RUN pip install --no-cache-dir https://github.com/jloh02/dlib/releases/download/v19.24/dlib-19.24.0-cp312-cp312-linux_x86_64.whl
 
 # Install other Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
