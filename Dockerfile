@@ -13,6 +13,11 @@ RUN apt-get update && apt-get install -y \
     libatlas-base-dev \
     libgtk-3-dev \
     libboost-python-dev \
+    libopenblas-dev \
+    liblapack-dev \
+    git \
+    wget \
+    unzip \
     && rm -rf /var/lib/apt/lists/*
 
 # Create and activate virtual environment
@@ -20,10 +25,16 @@ ENV VIRTUAL_ENV=/opt/venv
 RUN python -m venv $VIRTUAL_ENV
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
+# Upgrade pip and install wheel
+RUN pip install --no-cache-dir --upgrade pip wheel setuptools
+
 # Copy requirements file
 COPY requirements.txt .
 
-# Install Python dependencies
+# Install dlib separately first
+RUN pip install --no-cache-dir dlib==19.24.2
+
+# Install other Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the rest of the application
