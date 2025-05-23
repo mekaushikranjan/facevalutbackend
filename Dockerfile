@@ -54,11 +54,18 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the rest of the application
 COPY . .
 
-# Set environment variables for MongoDB connection
-ENV MONGODB_URI="mongodb://localhost:27017"
+# Set environment variables
+ENV MONGODB_URI="mongodb+srv://kaushik2003singh:Fg3yrUlzZPaH9R7y@complaintapp.shaxxqw.mongodb.net/facevault?retryWrites=true&w=majority&appName=ComplaintApp"
 ENV MONGODB_DB_NAME="facevault"
-ENV MONGODB_USERNAME=""
-ENV MONGODB_PASSWORD=""
+ENV JWT_SECRET_KEY="947832367c17c5421fc1d718cf7e66b8f2d9ad653b5c2dcfc22bf6461b2e040a"
+ENV JWT_ALGORITHM="HS256"
+ENV ACCESS_TOKEN_EXPIRE_MINUTES="10080"
+ENV SMTP_HOST="smtp.gmail.com"
+ENV SMTP_PORT="587"
+ENV SMTP_USER="mritunjaykaushik1803@gmail.com"
+ENV SMTP_PASSWORD="wzgl pppg sezx nlno"
+ENV SMTP_FROM="facevault@gmail.com"
+ENV SMTP_FROM_NAME="FaceVault"
 
 # Expose the port your app runs on
 EXPOSE 8000

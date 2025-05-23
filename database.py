@@ -9,12 +9,6 @@ load_dotenv()
 # MongoDB configuration
 MONGODB_URI = os.getenv("MONGODB_URI", "mongodb://localhost:27017")
 DATABASE_NAME = os.getenv("MONGODB_DB_NAME", "facevault")
-MONGODB_USERNAME = os.getenv("MONGODB_USERNAME", "")
-MONGODB_PASSWORD = os.getenv("MONGODB_PASSWORD", "")
-
-# Construct MongoDB URI with authentication if credentials are provided
-if MONGODB_USERNAME and MONGODB_PASSWORD:
-    MONGODB_URI = f"mongodb://{MONGODB_USERNAME}:{MONGODB_PASSWORD}@{MONGODB_URI.split('://')[1]}"
 
 # Async client for FastAPI
 async_client = AsyncIOMotorClient(MONGODB_URI)
