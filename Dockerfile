@@ -41,9 +41,12 @@ COPY requirements.txt .
 ENV DLIB_USE_CUDA=0
 ENV CMAKE_BUILD_TYPE=Release
 ENV CMAKE_POLICY_VERSION_MINIMUM=3.25
+ENV CFLAGS="-O3 -march=native -mtune=native"
+ENV CXXFLAGS="-O3 -march=native -mtune=native"
+ENV MAKEFLAGS="-j$(nproc)"
 
-# Install dlib using pre-built wheel
-RUN pip install --no-cache-dir https://github.com/jloh02/dlib/releases/download/v19.24/dlib-19.24.0-cp312-cp312-linux_x86_64.whl
+# Install dlib with optimized build settings
+RUN pip install --no-cache-dir dlib==19.24.2 --no-build-isolation --config-settings="--global-option=build_ext" --config-settings="--global-option=-DUSE_AVX_INSTRUCTIONS=ON" --config-settings="--global-option=-DUSE_SSE4_INSTRUCTIONS=ON"
 
 # Install other Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
