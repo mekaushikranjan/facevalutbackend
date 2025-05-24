@@ -15,7 +15,7 @@ os.environ['ACCESS_TOKEN_EXPIRE_MINUTES'] = "10080"
 os.environ['SMTP_HOST'] = "smtp.gmail.com"
 os.environ['SMTP_PORT'] = "587"
 os.environ['SMTP_USER'] = "mritunjaykaushik1803@gmail.com"
-os.environ['SMTP_PASSWORD'] = "wzgl pppg sezx nlno"
+os.environ['SMTP_PASSWORD'] = "Kaushik#03"
 os.environ['SMTP_FROM'] = "facevault@gmail.com"
 os.environ['SMTP_FROM_NAME'] = "FaceVault"
 
