@@ -62,8 +62,10 @@ app.add_middleware(
 )
 
 # Initialize MongoDB client
-client = AsyncIOMotorClient("mongodb://localhost:27017")
-db = client.facevault
+MONGODB_URI = os.getenv("MONGODB_URI", "mongodb+srv://kaushik2003singh:Fg3yrUlzZPaH9R7y@complaintapp.shaxxqw.mongodb.net/facevault?retryWrites=true&w=majority&appName=ComplaintApp")
+DATABASE_NAME = os.getenv("MONGODB_DB_NAME", "facevault")
+client = AsyncIOMotorClient(MONGODB_URI)
+db = client[DATABASE_NAME]
 
 # Initialize face detector
 face_detector = FaceDetector()
