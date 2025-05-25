@@ -54,10 +54,8 @@ EXPOSE 8000
 
 # Create a shell script to start the application
 RUN echo '#!/bin/sh\n\
-if [ -z "$PORT" ]; then\n\
-    export PORT=8000\n\
-fi\n\
-exec gunicorn main:app -k uvicorn.workers.UvicornWorker -b 0.0.0.0:$PORT\n\
+PORT=${PORT:-8000}\n\
+exec gunicorn main:app -k uvicorn.workers.UvicornWorker -b 0.0.0.0:${PORT}\n\
 ' > /app/start.sh && chmod +x /app/start.sh
 
 # Command to run the application
