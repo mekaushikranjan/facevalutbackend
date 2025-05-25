@@ -1545,6 +1545,20 @@ async def get_person_images(person_id: str, current_user: dict = Depends(get_cur
     
     return [Image.from_mongo(image) for image in images]
 
+# Add root endpoint for welcome message
+@app.get("/")
+async def root():
+    return {
+        "message": "Welcome to FaceVault API!",
+        "status": "Server is running successfully",
+        "version": "1.0.0",
+        "endpoints": {
+            "docs": "/docs",
+            "redoc": "/redoc",
+            "openapi": "/openapi.json"
+        }
+    }
+
 # Run the app
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 8000))
