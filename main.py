@@ -1546,5 +1546,5 @@ async def get_person_images(person_id: str, current_user: dict = Depends(get_cur
 
 # Run the app
 if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    port = int(os.environ.get("PORT", 8000))
+    uvicorn.run(app, host="0.0.0.0", port=port)
