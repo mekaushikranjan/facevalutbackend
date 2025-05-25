@@ -25,7 +25,8 @@ from database import (
     people_collection,
     albums_collection,
     face_encodings_collection,
-    create_indexes
+    create_indexes,
+    initialize_database
 )
 from bson import ObjectId
 from fastapi.responses import FileResponse
@@ -90,12 +91,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-# Initialize MongoDB client
-MONGODB_URI = os.getenv("MONGODB_URI", "mongodb+srv://kaushik2003singh:Fg3yrUlzZPaH9R7y@complaintapp.shaxxqw.mongodb.net/facevault?retryWrites=true&w=majority&appName=ComplaintApp")
-DATABASE_NAME = os.getenv("MONGODB_DB_NAME", "facevault")
-client = AsyncIOMotorClient(MONGODB_URI)
-db = client[DATABASE_NAME]
 
 # Initialize face detector lazily
 face_detector = None
