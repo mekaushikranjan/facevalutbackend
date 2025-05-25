@@ -17,6 +17,7 @@ from PIL import Image as PILImage
 import io
 import json
 import logging
+import sys
 import uvicorn
 from database import (
     users_collection,
@@ -36,25 +37,43 @@ from face_detector import FaceDetector
 from contextlib import asynccontextmanager
 
 # Configure logging
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(
+    level=logging.DEBUG,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    handlers=[logging.StreamHandler(sys.stdout)]
+)
 logger = logging.getLogger(__name__)
 
 # Get port from environment variable or use default
 PORT = int(os.getenv("PORT", "8000"))
+RAILWAY_ENVIRONMENT = os.getenv("RAILWAY_ENVIRONMENT", "development")
+
+logger.info(f"Starting application in {RAILWAY_ENVIRONMENT} environment")
+logger.info(f"Using port: {PORT}")
 
 # Initialize FastAPI app
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Startup
-    await create_indexes()
-    # Create upload directories
-    UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
-    FACES_DIR.mkdir(parents=True, exist_ok=True)
+    logger.info("Starting application lifespan")
+    try:
+        await create_indexes()
+        # Create upload directories
+        UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
+        FACES_DIR.mkdir(parents=True, exist_ok=True)
+        logger.info("Application startup completed successfully")
+    except Exception as e:
+        logger.error(f"Error during startup: {str(e)}")
+        raise
     yield
     # Shutdown
-    pass
+    logger.info("Shutting down application")
 
-app = FastAPI(title="FaceVault API", description="API for FaceVault photo gallery with face detection", lifespan=lifespan)
+app = FastAPI(
+    title="FaceVault API",
+    description="API for FaceVault photo gallery with face detection",
+    lifespan=lifespan
+)
 
 # Add CORS middleware
 app.add_middleware(

@@ -49,14 +49,5 @@ RUN mkdir -p uploads faces
 # Expose port
 EXPOSE 8000
 
-# Command to run the application with optimized settings
-CMD ["gunicorn", "main:app", \
-     "--workers", "1", \
-     "--worker-class", "uvicorn.workers.UvicornWorker", \
-     "--bind", "0.0.0.0:8000", \
-     "--timeout", "300", \
-     "--keep-alive", "5", \
-     "--log-level", "debug", \
-     "--preload", \
-     "--max-requests", "1000", \
-     "--max-requests-jitter", "50"] 
+# Command to run the application with minimal configuration
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--log-level", "debug"] 
