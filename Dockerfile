@@ -50,4 +50,4 @@ RUN mkdir -p uploads faces
 EXPOSE 8080
 
 # Command to run the application
-CMD ["gunicorn", "main:app", "--worker-class", "uvicorn.workers.UvicornWorker", "--bind", "0.0.0.0:8080", "--timeout", "0"] 
+CMD ["gunicorn", "main:app", "--worker-class", "uvicorn.workers.UvicornWorker", "--bind", "0.0.0.0:8080", "--timeout", "300", "--workers", "1", "--threads", "4", "--keep-alive", "5"] 

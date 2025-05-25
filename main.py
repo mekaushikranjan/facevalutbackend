@@ -59,8 +59,8 @@ async def lifespan(app: FastAPI):
     try:
         # Initialize MongoDB connection
         logger.info("Initializing MongoDB connection")
-        await create_indexes()
-        logger.info("MongoDB indexes created successfully")
+        await initialize_database()
+        logger.info("MongoDB connection initialized successfully")
         
         # Create upload directories
         logger.info("Creating upload directories")
