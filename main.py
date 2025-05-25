@@ -17,6 +17,7 @@ from PIL import Image as PILImage
 import io
 import json
 import logging
+import uvicorn
 from database import (
     users_collection,
     images_collection,
