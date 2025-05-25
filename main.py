@@ -20,12 +20,13 @@ import logging
 import sys
 import uvicorn
 from database import (
+    db,
     users_collection,
     images_collection,
     people_collection,
     albums_collection,
     face_encodings_collection,
-    create_indexes,
+    cold_storage_collection,
     initialize_database
 )
 from bson import ObjectId
