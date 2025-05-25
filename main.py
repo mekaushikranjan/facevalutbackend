@@ -47,7 +47,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # Get port from environment variable or use default
-PORT = int(os.getenv("PORT", "8080"))
+PORT = int(os.getenv("PORT", "8000"))
 RAILWAY_ENVIRONMENT = os.getenv("RAILWAY_ENVIRONMENT", "development")
 
 logger.info(f"Starting application in {RAILWAY_ENVIRONMENT} environment")

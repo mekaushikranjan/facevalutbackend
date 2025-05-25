@@ -15,6 +15,7 @@ RUN apt-get update && apt-get install -y \
     wget \
     unzip \
     libssl-dev \
+    curl \
     && rm -rf /var/lib/apt/lists/*
 
 # Set working directory
@@ -51,16 +52,16 @@ RUN useradd -m appuser && chown -R appuser:appuser /app
 USER appuser
 
 # Expose port
-EXPOSE 8080
+EXPOSE 8000
 
 # Add healthcheck
 HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \
-    CMD curl -f http://localhost:8080/ || exit 1
+    CMD curl -f http://localhost:8000/ || exit 1
 
 # Command to run the application with optimized settings for Railway
 CMD ["gunicorn", "main:app", \
      "--worker-class", "uvicorn.workers.UvicornWorker", \
-     "--bind", "0.0.0.0:8080", \
+     "--bind", "0.0.0.0:8000", \
      "--timeout", "120", \
      "--workers", "1", \
      "--threads", "2", \
