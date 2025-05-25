@@ -71,8 +71,15 @@ DATABASE_NAME = os.getenv("MONGODB_DB_NAME", "facevault")
 client = AsyncIOMotorClient(MONGODB_URI)
 db = client[DATABASE_NAME]
 
-# Initialize face detector
-face_detector = FaceDetector()
+# Initialize face detector lazily
+face_detector = None
+
+def get_face_detector():
+    global face_detector
+    if face_detector is None:
+        from face_detector import FaceDetector
+        face_detector = FaceDetector()
+    return face_detector
 
 # JWT Configuration
 SECRET_KEY = os.getenv("JWT_SECRET_KEY", "your-secret-key")
@@ -319,6 +326,7 @@ async def get_current_user(token: str = Depends(oauth2_scheme)):
 # Face detection functions
 def detect_faces(image_path: str) -> List[Dict[str, Any]]:
     """Detect faces in an image and return their locations and encodings."""
+    detector = get_face_detector()
     # Load the image
     image = face_recognition.load_image_file(image_path)
     
