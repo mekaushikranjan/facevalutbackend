@@ -49,5 +49,12 @@ RUN mkdir -p uploads faces
 # Expose port
 EXPOSE 8000
 
-# Command to run the application
-CMD ["gunicorn", "main:app", "-k", "uvicorn.workers.UvicornWorker", "-b", "0.0.0.0:8000"] 
+# Command to run the application with optimized settings
+CMD ["gunicorn", "main:app", \
+     "--workers", "1", \
+     "--worker-class", "uvicorn.workers.UvicornWorker", \
+     "--bind", "0.0.0.0:8000", \
+     "--timeout", "180", \
+     "--keep-alive", "5", \
+     "--log-level", "info", \
+     "--preload"] 
