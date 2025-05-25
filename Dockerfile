@@ -20,6 +20,9 @@ RUN apt-get update && apt-get install -y \
 # Set working directory
 WORKDIR /app
 
+# Install setuptools and wheel first
+RUN pip install --no-cache-dir --upgrade pip setuptools wheel
+
 # Copy requirements first to leverage Docker cache
 COPY requirements.txt .
 
@@ -32,7 +35,7 @@ ENV CXXFLAGS="-O3 -march=native -mtune=native"
 ENV MAKEFLAGS="-j$(nproc)"
 
 # Install dlib with optimized build settings
-RUN pip install --no-cache-dir dlib==19.24.2 --no-build-isolation --config-settings="--global-option=build_ext" --config-settings="--global-option=-DUSE_AVX_INSTRUCTIONS=ON" --config-settings="--global-option=-DUSE_SSE4_INSTRUCTIONS=ON"
+RUN pip install --no-cache-dir dlib==19.24.2
 
 # Install other Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
