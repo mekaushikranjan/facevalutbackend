@@ -47,7 +47,7 @@ COPY . .
 RUN mkdir -p uploads faces
 
 # Expose port
-EXPOSE 8000
+EXPOSE 8080
 
-# Command to run the application with minimal configuration
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--log-level", "debug"] 
+# Command to run the application
+CMD ["gunicorn", "main:app", "--worker-class", "uvicorn.workers.UvicornWorker", "--bind", "0.0.0.0:8080", "--timeout", "0"] 

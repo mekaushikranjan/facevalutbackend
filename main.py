@@ -45,7 +45,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # Get port from environment variable or use default
-PORT = int(os.getenv("PORT", "8000"))
+PORT = int(os.getenv("PORT", "8080"))
 RAILWAY_ENVIRONMENT = os.getenv("RAILWAY_ENVIRONMENT", "development")
 
 logger.info(f"Starting application in {RAILWAY_ENVIRONMENT} environment")
@@ -57,10 +57,17 @@ async def lifespan(app: FastAPI):
     # Startup
     logger.info("Starting application lifespan")
     try:
+        # Initialize MongoDB connection
+        logger.info("Initializing MongoDB connection")
         await create_indexes()
+        logger.info("MongoDB indexes created successfully")
+        
         # Create upload directories
+        logger.info("Creating upload directories")
         UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
         FACES_DIR.mkdir(parents=True, exist_ok=True)
+        logger.info("Upload directories created successfully")
+        
         logger.info("Application startup completed successfully")
     except Exception as e:
         logger.error(f"Error during startup: {str(e)}")
