@@ -12,13 +12,19 @@ logger = logging.getLogger(__name__)
 load_dotenv()
 
 # MongoDB configuration
+logger.info("Attempting to load MongoDB URI from environment variables")
 MONGODB_URI = os.getenv("MONGODB_URI")
 if not MONGODB_URI:
+    logger.error("MONGODB_URI environment variable is not set")
     raise ValueError("MONGODB_URI environment variable is not set. Please set it to your MongoDB connection string.")
+else:
+    logger.info("MONGODB_URI found in environment variables")
 
 DATABASE_NAME = os.getenv("MONGODB_DB_NAME", "facevault")
+logger.info(f"Using database name: {DATABASE_NAME}")
 
 # Async client for FastAPI
+logger.info("Initializing MongoDB async client")
 async_client = AsyncIOMotorClient(MONGODB_URI)
 db = async_client[DATABASE_NAME]
 
